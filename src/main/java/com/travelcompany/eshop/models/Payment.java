@@ -14,7 +14,7 @@ public class Payment {
 
     //TODO constructors depending of the paymentOption
     //TODO Methods to calculate the final price of the ticket
-    //TODO
+
 
 
 
