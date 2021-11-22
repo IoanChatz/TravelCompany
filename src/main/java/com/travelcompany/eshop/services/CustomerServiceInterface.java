@@ -1,5 +1,4 @@
 package com.travelcompany.eshop.services;
 
-public class CustomerServiceInterface {
-    //TODO
+public interface CustomerServiceInterface {
 }
