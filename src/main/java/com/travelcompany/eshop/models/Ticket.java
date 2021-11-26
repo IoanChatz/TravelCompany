@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Ticket {
     private long id;
-    private long passengerId;
+    private long customerId;
     private long ItineraryId;
     private PaymentOption paymentOption;
     private BigDecimal costAmount;

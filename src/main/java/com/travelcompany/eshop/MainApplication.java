@@ -1,11 +1,21 @@
 package com.travelcompany.eshop;
 
+import com.travelcompany.eshop.database.DatabaseParameters;
+import com.travelcompany.eshop.database.DatabaseConnection;
 import com.travelcompany.eshop.utils.CsvReaderWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.*;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import static java.lang.System.exit;
 
 public class MainApplication {
-    public static void main(String[] args) {
+    private static final Logger logger = LoggerFactory.getLogger(MainApplication.class);
+    public static void main(String[] args) throws SQLException {
 
         //TODO Design and implement database and tables.
         //TODO Restore Function (Reset)
@@ -26,5 +36,33 @@ public class MainApplication {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         /*Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/travelcompany","root","root");
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("Select * from customer;");
+        while (resultSet.next()){
+            System.out.println(resultSet.getString("name"));
+        }*/
+      /* DatabaseConnection db = new DatabaseConnection();
+        DatabaseParameters dbParameters = new DatabaseParameters();
+
+        try {
+            Connection myConnection = db.getConnection(dbParameters);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MainApplication.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        DatabaseConnection connection = new DatabaseConnection();
+        DatabaseParameters dbParameters = new DatabaseParameters();
+        Connection myConnection = connection.getConnection(dbParameters);
+         final Properties sqlCommands = new Properties();
+            try (Statement statement = myConnection.createStatement()) {
+                int result = statement.executeUpdate("CREATE TABLE if not exists `travelcompany`.`payment` (`paymentid` INT NOT NULL AUTO_INCREMENT,`name` VARCHAR(60) NOT NULL,PRIMARY KEY (`paymentid`));");
+                logger.info("Created table command was successful with result {}.", result);
+            } catch (SQLException ex) {
+                logger.error("Error while creating table(s).", ex);
+                exit(-1);
+            }
+        }
     }
-}
+

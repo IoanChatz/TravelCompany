@@ -2,20 +2,24 @@ package com.travelcompany.eshop.utils;
 
 import com.travelcompany.eshop.models.Category;
 import com.travelcompany.eshop.models.Customer;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class CsvReaderWriter implements RWStrategyPatternTest{
 
     Set<Customer> customerSet = new HashSet<>();
 
-    @Override
+    @Override// "C:\\Users\\CSVsFile\\customers.csv"
     public void  readCsvFiles() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\CSVsFile\\customers.csv"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(Directory.FILE_DIRECTORY.getPath() + "customers.csv"));
         String row;
         String[] data;
         long id ;
@@ -45,5 +49,45 @@ public class CsvReaderWriter implements RWStrategyPatternTest{
         }
         return null;
     }
+
+////////////////////////////////////////for TESTING
+
+
+   /* public void writeCustomersToFile(List<Customer> customers, String filename) {
+        Path path = Paths.get(Directory.FILE_DIRECTORY.getPath() + filename);
+        try(Writer writer = Files.newBufferedWriter(path);
+            CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)){
+            customers.forEach(customer -> {
+                try {
+                    csvPrinter.printRecord(customer.getName(), customer.getGender(), customer.getYearOfBirth(), customer.getAddress());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    public Optional<List<Customer>> readCustomersFromFile(String filename) {
+        Path path = Paths.get(Directory.FILE_DIRECTORY.getPath() + filename);
+        try(Reader reader = Files.newBufferedReader(path);
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)){
+            ArrayList<Customer> customers = new ArrayList<>();
+            List<CSVRecord> recordList = csvParser.getRecords();
+            recordList.forEach(record -> {
+                Customer customer = new Customer();
+                customer.setName(record.get(0));
+                customer.setGender(record.get(1));
+                customer.setYearOfBirth(Integer.parseInt(record.get(2)));
+                customer.setAddress(record.get(3));
+                customers.add(customer);
+            });
+            return Optional.of(customers);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return Optional.empty();
+    }*/
 
 }
