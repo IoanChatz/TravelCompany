@@ -4,7 +4,8 @@ import java.io.File;
 
 public enum Directory {
 
-    FILE_DIRECTORY(System.getProperty("user.home") + File.separator + "CSVsFile" + File.separator);
+    FILE_DIRECTORY(System.getProperty("user.home") + File.separator + "IdeaProjects" + File.separator
+            + "TravelCompany" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator);
 
     private final String path;
 

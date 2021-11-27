@@ -6,15 +6,19 @@ import com.travelcompany.eshop.utils.CsvReaderWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import static java.lang.System.exit;
 
+
 public class MainApplication {
     private static final Logger logger = LoggerFactory.getLogger(MainApplication.class);
+    private static final Properties sqlCommands = new Properties();
     public static void main(String[] args) throws SQLException {
 
         //TODO Design and implement database and tables.
@@ -52,17 +56,38 @@ public class MainApplication {
         } catch (SQLException ex) {
             Logger.getLogger(MainApplication.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-        DatabaseConnection connection = new DatabaseConnection();
+        DatabaseConnection myConnection = new DatabaseConnection();
         DatabaseParameters dbParameters = new DatabaseParameters();
-        Connection myConnection = connection.getConnection(dbParameters);
-         final Properties sqlCommands = new Properties();
-            try (Statement statement = myConnection.createStatement()) {
-                int result = statement.executeUpdate("CREATE TABLE if not exists `travelcompany`.`payment` (`paymentid` INT NOT NULL AUTO_INCREMENT,`name` VARCHAR(60) NOT NULL,PRIMARY KEY (`paymentid`));");
+
+        Connection connection = null; ;
+        myConnection.createDatabase(dbParameters);
+        myConnection.createCustomerTable(connection,dbParameters);
+        myConnection.createItineraryTable(connection,dbParameters);
+        myConnection.createTicketTable(connection,dbParameters);
+        myConnection.insertDataIntoTableCustomer(connection,dbParameters);
+
+          /*  try (Statement statement = myConnection.createStatement()) {
+                loadSqlCommands();
+                int result = statement.executeUpdate(sqlCommands.getProperty("create.table.payment"));
                 logger.info("Created table command was successful with result {}.", result);
             } catch (SQLException ex) {
                 logger.error("Error while creating table(s).", ex);
                 exit(-1);
             }
-        }
+        }*/
+
+   /* public static void loadSqlCommands() {
+        try (InputStream inputStream = DatabaseConnection.class.getClassLoader()
+                .getResourceAsStream("sql.properties")) {
+            if (inputStream == null) {
+                logger.error("Sorry, unable to find sql.properties, exiting application.");
+                exit(-1);
+            }
+            sqlCommands.load(inputStream);
+        } catch (IOException ex) {
+            logger.error("Sorry, unable to parse sql.properties, exiting application.", ex);
+            exit(-1);
+        }*/
+    }
     }
 
