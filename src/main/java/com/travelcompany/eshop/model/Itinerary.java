@@ -1,4 +1,4 @@
-package com.travelcompany.eshop.models;
+package com.travelcompany.eshop.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Itinerary {
-    private long id;
+    private int id;
     private String departureAirportId;
     private String destinationAirportId;
     private LocalDateTime departureDate;
     private String airline;
-    private BigDecimal cost;
+    private int cost;
 }

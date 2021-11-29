@@ -1,9 +1,19 @@
 
-j
-:src/main/java/com/travelcompany/eshop/models/Category.java,c\e\ce091cf6bcdf07be673df59360d6de8ee9437643
 w
 Gsrc/main/java/com/travelcompany/eshop/services/CustomerServiceImpl.java,e\0\e0dfb09c4c26e7971dbe7222ec22cc9acd94e4b0
 |
 Lsrc/main/java/com/travelcompany/eshop/services/CustomerServiceInterface.java,3\3\33005550e208cc283c0dc90af7d0a79b6f4ae823
 …
 Usrc/main/java/com/travelcompany/eshop/repositories/TicketRepositoryInterfaceImpl.java,7\2\7276b7a983f72143b8402a93c2a514a661fb51af
+o
+?src/main/java/com/travelcompany/eshop/models/PaymentOption.java,0\d\0db713f65cbf5f4b0516655a5501b785f7f5d9f0
+i
+9src/main/java/com/travelcompany/eshop/models/Payment.java,3\f\3fed077210994920c7479b42fbd19486e53f4c61
+h
+8src/main/java/com/travelcompany/eshop/models/Ticket.java,8\2\823f5f6dfbf0e84c41f92e178da2afad5260d209
+{
+Ksrc/main/java/com/travelcompany/eshop/repositories/RepositoryInterface.java,c\7\c78e10bdb623d8b70b2a0df641a0d5ce147bf1f2
+‡
+Wsrc/main/java/com/travelcompany/eshop/repositories/CustomerRepositoryInterfaceImpl.java,a\0\a04701f33e7788b4d40e7cade5184a09742036a9
+j
+:src/main/java/com/travelcompany/eshop/utils/Directory.java,4\5\45d5f985c0d8cdbafedd75f90114a34585c53e9a

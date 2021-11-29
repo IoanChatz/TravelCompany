@@ -1,27 +1,14 @@
-package com.travelcompany.eshop.services;
+package com.travelcompany.eshop.service;
 
-import com.travelcompany.eshop.models.Customer;
+import com.travelcompany.eshop.model.Customer;
+import com.travelcompany.eshop.repository.CustomerRepositoryInterfaceImpl;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CustomerServiceImpl implements CustomerServiceInterface {
 
-
-
-    public Customer addCustomer(Customer customer) {
-        return null;
-    }
-
-    @Override
-    public Customer saveCustomer(Customer customer) {
-        return null;
-    }
-
-    @Override
-    public Customer removeCustomer(Customer customer) {
-        return null;
-    }
+   CustomerRepositoryInterfaceImpl customerRepositoryInterface;
 
     @Override
     public List<Customer> findAll() {

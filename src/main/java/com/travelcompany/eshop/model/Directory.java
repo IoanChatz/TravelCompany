@@ -1,4 +1,4 @@
-package com.travelcompany.eshop.utils;
+package com.travelcompany.eshop.model;
 
 import java.io.File;
 

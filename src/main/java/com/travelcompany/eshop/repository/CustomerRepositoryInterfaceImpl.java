@@ -1,6 +1,6 @@
-package com.travelcompany.eshop.repositories;
+package com.travelcompany.eshop.repository;
 
-import com.travelcompany.eshop.models.Customer;
+import com.travelcompany.eshop.model.Customer;
 
 import java.util.List;
 import java.util.Optional;

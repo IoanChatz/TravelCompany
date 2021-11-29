@@ -1,4 +1,4 @@
-package com.travelcompany.eshop.repositories;
+package com.travelcompany.eshop.repository;
 
 public class TicketRepositoryInterfaceImpl {
 }

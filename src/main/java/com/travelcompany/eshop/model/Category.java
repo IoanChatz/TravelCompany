@@ -1,4 +1,4 @@
-package com.travelcompany.eshop.models;
+package com.travelcompany.eshop.model;
 
 public enum Category {
 
@@ -6,4 +6,7 @@ public enum Category {
 
     public  double createDiscount(){
         return  0.1;}
+
+
+
     }

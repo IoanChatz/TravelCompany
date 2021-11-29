@@ -1,4 +1,4 @@
-package com.travelcompany.eshop.services;
+package com.travelcompany.eshop.service;
 
 public interface TicketServiceInterface {
 }

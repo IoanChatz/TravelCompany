@@ -1,4 +1,4 @@
-package com.travelcompany.eshop.models;
+package com.travelcompany.eshop.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ticket {
-    private long id;
-    private long customerId;
-    private long ItineraryId;
+    private int id;
+    private int customerId;
+    private int itineraryId;
     private PaymentOption paymentOption;
-    private BigDecimal costAmount;
+    private int costAmount;
 }

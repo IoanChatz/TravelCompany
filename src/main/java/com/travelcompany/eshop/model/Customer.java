@@ -1,4 +1,4 @@
-package com.travelcompany.eshop.models;
+package com.travelcompany.eshop.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
-    private long id;
+    private int id;
     private String name;
     private String emailAddress;
     private String city;
     private String nationality;
     private Category category;
+
 }

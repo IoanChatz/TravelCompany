@@ -1,6 +1,6 @@
-package com.travelcompany.eshop.services;
+package com.travelcompany.eshop.service;
 
-import com.travelcompany.eshop.models.Customer;
+import com.travelcompany.eshop.model.Customer;
 
 
 import java.util.List;
@@ -9,9 +9,6 @@ import java.util.Optional;
 public interface CustomerServiceInterface {
 
 
-
-    Customer saveCustomer(Customer customer);
-    Customer removeCustomer(Customer customer);
 
     List< Customer > findAll();
     void save(Customer customer);
