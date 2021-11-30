@@ -1,15 +1,13 @@
 package com.travelcompany.eshop.database;
 
-import com.travelcompany.eshop.model.Category;
-import com.travelcompany.eshop.model.Customer;
-import com.travelcompany.eshop.model.Itinerary;
-import com.travelcompany.eshop.model.Ticket;
+import com.travelcompany.eshop.model.*;
+import com.travelcompany.eshop.util.ExcelWriter;
+import com.travelcompany.eshop.util.TxtWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -186,7 +184,12 @@ public class DatabaseConnection implements DatabaseInterface {
         }
     }
 
-    public void readData(Connection connection) throws SQLException {
+    public void readTotalNumberAndCost(Connection connection) throws SQLException {
+        String fileNameExcel = "readTotalNumberAndCost.xml";
+        String fileNameText = "readTotalNumberAndCost.txt";
+        ExcelWriter excelWriter = new ExcelWriter();
+        TxtWriter txtWriter = new TxtWriter();
+        List<String> strings = new ArrayList<>();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.cost.amount.ticket"));
         while (resultSet.next()) {
@@ -194,29 +197,56 @@ public class DatabaseConnection implements DatabaseInterface {
             logger.info("Total Purchases: {}", resultSet.getString("Total_Purchases"));
             logger.info("Total Cost: {}", resultSet.getString("Total_Cost"));
             logger.info("----------------------------");
+            strings.add(resultSet.getString("Full_Name"));
+            strings.add(resultSet.getString("Total_Purchases"));
+            strings.add(resultSet.getString("Total_Cost"));
         }
+        excelWriter.writeCustomersToFile(strings, fileNameExcel);
+        txtWriter.writeTxtFile(strings, fileNameText);
     }
 
     public void readMaxTicketsByCustomer(Connection connection) throws SQLException {
+        String fileNameExcel = "readMaxTicketsByCustomer.xml";
+        String fileNameText = "readMaxTicketsByCustomer.txt";
+        ExcelWriter excelWriter = new ExcelWriter();
+        TxtWriter txtWriter = new TxtWriter();
+        List<String> strings = new ArrayList<>();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.customer.max.tickets"));
         while (resultSet.next()) {
             logger.info("Full Name: {}", resultSet.getString("Full_Name"));
             logger.info("Total Purchases: {}", resultSet.getString("Max_Purchases"));
             logger.info("----------------------------");
+            strings.add(resultSet.getString("Full_Name"));
+            strings.add(resultSet.getString("Max_Purchases"));
         }
+        excelWriter.writeCustomersToFile(strings, fileNameExcel);
+        txtWriter.writeTxtFile(strings, fileNameText);
     }
 
     public void readZeroTicketsByCustomer(Connection connection) throws SQLException {
+        String fileNameExcel = "readZeroTicketsByCustomer.xml";
+        String fileNameText = "readZeroTicketsByCustomer.txt";
+        ExcelWriter excelWriter = new ExcelWriter();
+        TxtWriter txtWriter = new TxtWriter();
+        List<String> strings = new ArrayList<>();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.zero.tickets"));
         while (resultSet.next()) {
             logger.info("Full Name: {}", resultSet.getString("Full_Name"));
             logger.info("----------------------------");
+            strings.add(resultSet.getString("Full_Name"));
         }
+        excelWriter.writeCustomersToFile(strings, fileNameExcel);
+        txtWriter.writeTxtFile(strings, fileNameText);
     }
 
     public void readOfferedItineraries(Connection connection) throws SQLException {
+        String fileNameExcel = "readOfferedItineraries.xml";
+        String fileNameText = "readOfferedItineraries.txt";
+        ExcelWriter excelWriter = new ExcelWriter();
+        TxtWriter txtWriter = new TxtWriter();
+        List<String> strings = new ArrayList<>();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.itineraries.offered"));
         while (resultSet.next()) {
@@ -224,7 +254,12 @@ public class DatabaseConnection implements DatabaseInterface {
             logger.info("Destination Airport: {}", resultSet.getString("Destination_Airport"));
             logger.info("Total_Itineraries: {}", resultSet.getString("TOTAL_ITINERARIES"));
             logger.info("----------------------------");
+            strings.add(resultSet.getString("Departure_Airport"));
+            strings.add(resultSet.getString("Destination_Airport"));
+            strings.add(resultSet.getString("TOTAL_ITINERARIES"));
         }
+        excelWriter.writeCustomersToFile(strings, fileNameExcel);
+        txtWriter.writeTxtFile(strings, fileNameText);
     }
 
     public List<Customer> readAllCustomers(Connection connection) throws SQLException {
@@ -245,11 +280,34 @@ public class DatabaseConnection implements DatabaseInterface {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.table.itinerary"));
         while (resultSet.next()) {
-                itineraries.add(new Itinerary(resultSet.getInt("itineraryid"),resultSet.getString("departureairportid"),
-                        resultSet.getString("destinationairportid"),LocalDateTime.parse(resultSet.getString("departuredate")),
-                        resultSet.getString("airline"), resultSet.getInt("cost")));
+            itineraries.add(new Itinerary(resultSet.getInt("itineraryid"), resultSet.getString("departureairportid"),
+                    resultSet.getString("destinationairportid"),
+                    LocalDateTime.parse(resultSet.getString("departuredate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                    resultSet.getString("airline"), resultSet.getInt("cost")));
         }
         return itineraries;
+    }
+
+    public List<Ticket> readAllITickets(Connection connection) throws SQLException {
+        List<Ticket> tickets = new ArrayList<>();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.table.ticket"));
+        while (resultSet.next()) {
+            tickets.add(new Ticket(resultSet.getInt("ticketid"), resultSet.getInt("customerid"),
+                    resultSet.getInt("itineraryid"),
+                    PaymentOption.valueOf(resultSet.getString("paymentmethod")), resultSet.getInt("amount")));
+        }
+        return tickets;
+    }
+
+    public void restoreDatabase(Connection connection) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            loadSqlCommands();
+            int result = statement.executeUpdate(sqlCommands.getProperty("drop.database"));
+            logger.info("Database restored successfully...", result);
+        } catch (SQLException e) {
+            logger.info("{}", e);
+        }
     }
 
 

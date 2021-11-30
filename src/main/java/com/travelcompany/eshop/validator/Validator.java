@@ -1,13 +1,12 @@
 package com.travelcompany.eshop.validator;
 
-import com.travelcompany.eshop.model.Customer;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
-public class CustomerValidator {
+public class Validator {
 
 
     public boolean supports(Class<?> clazz) {

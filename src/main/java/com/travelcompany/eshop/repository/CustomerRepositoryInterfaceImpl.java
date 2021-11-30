@@ -16,9 +16,9 @@ public class CustomerRepositoryInterfaceImpl implements RepositoryInterface<Cust
     @Override
     public Optional<Customer> read(int customerId) {
 
-        Customer customer = null ;//= getCustomer(customerId);
+        Customer customer = null;//= getCustomer(customerId);
 
-        return  (customer == null)? Optional.empty(): Optional.of(customer);
+        return (customer == null) ? Optional.empty() : Optional.of(customer);
     }
 
     @Override
