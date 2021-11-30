@@ -9,9 +9,11 @@ import com.travelcompany.eshop.model.Directory;
 import com.travelcompany.eshop.model.Itinerary;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -22,19 +24,21 @@ public class CsvReaderWriter implements RWStrategyPatternTest {
 
     //@Override
     public void writeCustomersToFile(List<Customer> customers, String filename) {
+        filename = "customersBack.csv";
         Path path = Paths.get(Directory.FILE_DIRECTORY.getPath() + filename);
-       /* try(Writer writer = Files.newBufferedWriter(path);
+        try(Writer writer = Files.newBufferedWriter(path);
             CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)){
             customers.forEach(customer -> {
                 try {
-                    csvPrinter.printRecord(customer.getName(), customer.getGender(), customer.getYearOfBirth(), customer.getAddress());
+                    csvPrinter.printRecord(customer.getId(), customer.getName(), customer.getEmailAddress(),
+                            customer.getCity(),customer.getNationality(), customer.getCategory().toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
         } catch (IOException ioException) {
             ioException.printStackTrace();
-        }*/
+        }
     }
 
     //@Override

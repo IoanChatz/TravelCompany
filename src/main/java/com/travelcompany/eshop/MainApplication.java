@@ -12,11 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 
@@ -98,9 +100,8 @@ public class MainApplication {
                 ticket.setCustomerId(Integer.parseInt(t.getCustomerId()));
             if (validator.isValidNumber(t.getItineraryId()))
                 ticket.setItineraryId(Integer.parseInt(t.getItineraryId()));
-           // if (validator.isInEnum(t.getPaymentOption(), PaymentOption.class))
+            if (validator.isInEnum(t.getPaymentOption(), PaymentOption.class))
                 ticket.setPaymentOption(PaymentOption.valueOf(t.getPaymentOption()));
-
             if (validator.isValidNumber(t.getCostAmount()))
                 ticket.setCostAmount(Integer.parseInt(t.getCostAmount()));
             tickets.add(ticket);
@@ -145,6 +146,12 @@ public class MainApplication {
         myConnection.readData(connection);
         myConnection.readMaxTicketsByCustomer(connection);
         myConnection.readZeroTicketsByCustomer(connection);
+        myConnection.readOfferedItineraries(connection);
+        List<Customer> test = myConnection.readAllCustomers(connection);
+        test.stream().forEach(customer -> logger.info("{}",customer));
+        List<Itinerary> test2 = myConnection.readAllItineraries(connection);
+        test2.stream().forEach(itinerary -> logger.info("{}",itinerary));
+        //csvReaderWriter.writeCustomersToFile(test,s);
 
           /*  try (Statement statement = myConnection.createStatement()) {
                 loadSqlCommands();
@@ -168,6 +175,15 @@ public class MainApplication {
             logger.error("Sorry, unable to parse sql.properties, exiting application.", ex);
             exit(-1);
         }*/
+        //BACKUP
+        String command = "mysqldump --host=" + dbParameters.getHOST() + " --user=" + dbParameters.getDB_USERNAME() + " --password=" + dbParameters.getDB_PASSWORD() + " "
+                + dbParameters.getDATABASE() + " > " + "C:\\Users\\chatziio\\CSVsFile\\" + "/ofm_mnu_backup_" + new Date() + ".sql";
+
+
+
+        //RESTORE
+        //String command = "mysqldump --host=" + dataBase.getHost() + " --user=" + dataBase.getUserName() + " --password=" + dataBase.getPassword() + " "
+             //   + dataBase.getDatabaseName() + " < " + dataBase.getBackupPath() + "/ofm_mnu_backup_" + bkDate + ".sql";
     }
 }
 

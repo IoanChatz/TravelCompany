@@ -1,5 +1,6 @@
 package com.travelcompany.eshop.database;
 
+import com.travelcompany.eshop.model.Category;
 import com.travelcompany.eshop.model.Customer;
 import com.travelcompany.eshop.model.Itinerary;
 import com.travelcompany.eshop.model.Ticket;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -193,6 +196,7 @@ public class DatabaseConnection implements DatabaseInterface {
             logger.info("----------------------------");
         }
     }
+
     public void readMaxTicketsByCustomer(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.customer.max.tickets"));
@@ -202,6 +206,7 @@ public class DatabaseConnection implements DatabaseInterface {
             logger.info("----------------------------");
         }
     }
+
     public void readZeroTicketsByCustomer(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.zero.tickets"));
@@ -209,6 +214,42 @@ public class DatabaseConnection implements DatabaseInterface {
             logger.info("Full Name: {}", resultSet.getString("Full_Name"));
             logger.info("----------------------------");
         }
+    }
+
+    public void readOfferedItineraries(Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.itineraries.offered"));
+        while (resultSet.next()) {
+            logger.info("Departure Airport: {}", resultSet.getString("Departure_Airport"));
+            logger.info("Destination Airport: {}", resultSet.getString("Destination_Airport"));
+            logger.info("Total_Itineraries: {}", resultSet.getString("TOTAL_ITINERARIES"));
+            logger.info("----------------------------");
+        }
+    }
+
+    public List<Customer> readAllCustomers(Connection connection) throws SQLException {
+        List<Customer> customers = new ArrayList<>();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.table.customer"));
+        while (resultSet.next()) {
+            customers.add(new Customer(resultSet.getInt("customerid"),
+                    resultSet.getString("name"), resultSet.getString("email"),
+                    resultSet.getString("addresscity"), resultSet.getString("nationality"),
+                    Category.valueOf(resultSet.getString("category"))));
+        }
+        return customers;
+    }
+
+    public List<Itinerary> readAllItineraries(Connection connection) throws SQLException {
+        List<Itinerary> itineraries = new ArrayList<>();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.table.itinerary"));
+        while (resultSet.next()) {
+                itineraries.add(new Itinerary(resultSet.getInt("itineraryid"),resultSet.getString("departureairportid"),
+                        resultSet.getString("destinationairportid"),LocalDateTime.parse(resultSet.getString("departuredate")),
+                        resultSet.getString("airline"), resultSet.getInt("cost")));
+        }
+        return itineraries;
     }
 
 
