@@ -6,7 +6,6 @@ import com.travelcompany.eshop.model.Ticket;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,7 +30,7 @@ public interface DatabaseInterface {
 
     void insertDataIntoTableTicket(Connection connection, DatabaseParameters dbParameters) throws SQLException;
 
-    public void insertDataIntoTableCustomerBatch(Connection connection, DatabaseParameters dbParameters, List<Customer> customers) throws SQLException;
+    void insertDataIntoTableCustomerBatch(Connection connection, DatabaseParameters dbParameters, List<Customer> customers) throws SQLException;
 
     void insertDataIntoTableItineraryBatch(Connection connection, DatabaseParameters dbParameters, List<Itinerary> itineraries) throws SQLException;
 

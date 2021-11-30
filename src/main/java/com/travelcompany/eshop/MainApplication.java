@@ -10,7 +10,7 @@ public class MainApplication {
     private static final Logger logger = LoggerFactory.getLogger(MainApplication.class);
 
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
 
         new Menu().runMenu();
     }

@@ -1,14 +1,17 @@
 package com.travelcompany.eshop.repository;
 
+import com.travelcompany.eshop.database.DatabaseParameters;
 import com.travelcompany.eshop.model.Customer;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class CustomerRepositoryInterfaceImpl implements RepositoryInterface<Customer> {
 
 
-    @Override
+
     public Customer create(Customer customer) {
         return null;
     }
@@ -37,5 +40,15 @@ public class CustomerRepositoryInterfaceImpl implements RepositoryInterface<Cust
     public boolean delete(int id) {
 
         return false;
+    }
+
+    @Override
+    public void insertDataIntoTable(Connection connection, DatabaseParameters dbParameters) throws SQLException {
+
+    }
+
+    @Override
+    public void insertIntoTableBatch(Connection connection, DatabaseParameters dbParameters, List<Customer> list) throws SQLException {
+
     }
 }

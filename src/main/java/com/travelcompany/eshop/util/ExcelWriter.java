@@ -16,7 +16,7 @@ public class ExcelWriter {
     public void writeCustomersToFile(List<String> dataList, String filename) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(Directory.REPORTS_DIRECTORY + filename);
              XSSFWorkbook workbook = new XSSFWorkbook()) {
-            XSSFSheet sheet = workbook.createSheet("Reports");
+            XSSFSheet sheet = workbook.createSheet("");
             int rowIndex = 0;
             for (String data : dataList) {
                 XSSFRow row = sheet.createRow(rowIndex);

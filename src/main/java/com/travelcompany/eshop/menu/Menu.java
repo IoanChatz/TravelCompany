@@ -68,7 +68,7 @@ public class Menu {
         return selection;
     }
 
-    public void runMenu() throws SQLException {
+    public void runMenu() throws Exception {
         myConnection.createDatabase(dbParameters);
         Connection connection = myConnection.getConnection(dbParameters);
         while (!exit) {

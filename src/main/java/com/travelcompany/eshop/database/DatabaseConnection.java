@@ -17,7 +17,7 @@ import java.util.Properties;
 
 import static java.lang.System.exit;
 
-public class DatabaseConnection implements DatabaseInterface {
+public class DatabaseConnection implements DatabaseInterface     {
     private static final Logger logger = LoggerFactory.getLogger(DatabaseConnection.class);
     private static final Properties sqlCommands = new Properties();
     private static final String Jdbc_Driver = "com.mysql.cj.jdbc.Driver";
@@ -39,15 +39,12 @@ public class DatabaseConnection implements DatabaseInterface {
     @Override
     public Connection getConnection(DatabaseParameters dbParameters) throws SQLException {
         Connection connection = null;
-        Properties connectionProperties = new Properties();
-        connectionProperties.put("user", dbParameters.getDB_USERNAME());
-        connectionProperties.put("password", dbParameters.getDB_PASSWORD());
         try {
             loadDatabaseDriver();
             connection = DriverManager.getConnection(dbParameters.getDB_CONNECTION_URL()
                     + dbParameters.getHOST() + ":"
                     + dbParameters.getHOST_PORT()
-                    + "/" + dbParameters.getDATABASE(), connectionProperties);
+                    + "/" + dbParameters.getDATABASE(), dbParameters.getDB_USERNAME(),dbParameters.getDB_PASSWORD());
             logger.info("Successful MySQL Database Connection!");
         } catch (ClassNotFoundException exception) {
             logger.info("No suitable driver was found! " + exception);
@@ -184,6 +181,7 @@ public class DatabaseConnection implements DatabaseInterface {
         }
     }
 
+
     public void readTotalNumberAndCost(Connection connection) throws SQLException {
         String fileNameExcel = "readTotalNumberAndCost.xml";
         String fileNameText = "readTotalNumberAndCost.txt";
@@ -205,6 +203,7 @@ public class DatabaseConnection implements DatabaseInterface {
         txtWriter.writeTxtFile(strings, fileNameText);
     }
 
+
     public void readMaxTicketsByCustomer(Connection connection) throws SQLException {
         String fileNameExcel = "readMaxTicketsByCustomer.xml";
         String fileNameText = "readMaxTicketsByCustomer.txt";
@@ -223,6 +222,7 @@ public class DatabaseConnection implements DatabaseInterface {
         excelWriter.writeCustomersToFile(strings, fileNameExcel);
         txtWriter.writeTxtFile(strings, fileNameText);
     }
+
 
     public void readZeroTicketsByCustomer(Connection connection) throws SQLException {
         String fileNameExcel = "readZeroTicketsByCustomer.xml";
@@ -299,6 +299,7 @@ public class DatabaseConnection implements DatabaseInterface {
         }
         return tickets;
     }
+
 
     public void restoreDatabase(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {

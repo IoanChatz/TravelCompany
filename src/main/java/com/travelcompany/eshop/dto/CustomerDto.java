@@ -2,12 +2,11 @@ package com.travelcompany.eshop.dto;
 
 import com.travelcompany.eshop.model.Category;
 import com.travelcompany.eshop.model.Customer;
-import com.travelcompany.eshop.util.CsvReaderWriter;
 import com.travelcompany.eshop.validator.Validator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.nio.file.Path;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class CustomerDto {
     }
 
 
-    public List<Customer> createCustomerBatchList(List<CustomerDto> customerDtoList, Validator validator) {
+    public List<Customer> createCustomerBatchList(List<CustomerDto> customerDtoList, Validator validator) throws Exception {
         List<Customer> customersList = new ArrayList<>(0);
         for (CustomerDto c : customerDtoList) {
             Customer customer = new Customer();
